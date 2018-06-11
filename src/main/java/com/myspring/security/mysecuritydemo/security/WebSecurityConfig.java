@@ -60,6 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/login").permitAll() //资源不限制
                 .anyRequest().authenticated() //任何请求,登录后可以访问
                 .and()
                 .formLogin()
@@ -68,6 +69,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll() //登录页面用户任意访问
                 .and()
                 .logout().permitAll(); //注销行为任意访问
+     //关闭默认设置csrf跨域（该设置开启时，在登录页必须要有该值，不然报错，一般禁用，禁用后，登录页面可以是正常登录页面，不需要额外设置，只需要
+     //action为.loginPage("/login") 里面的值即可）
+     http.csrf().disable();
 
         // 范例
        /* http.authorizeRequests()
